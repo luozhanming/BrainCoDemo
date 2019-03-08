@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RTChart">
+        <attr name="maxValue" format="integer"/>
+        <attr name="minValue" format="integer"/>
+        <attr name="vAxisName" format="string"/>
+        <attr name="hAxisName" format="string"/>
+        <attr name="vScaleNum" format="integer"/>
+        <attr name="hScaleNum" format="integer"/>
+    </declare-styleable>
+</resources>
