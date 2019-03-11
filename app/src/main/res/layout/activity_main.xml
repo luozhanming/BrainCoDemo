@@ -26,7 +26,7 @@
                           android:layout_height="wrap_content"
                           android:gravity="center">
                 <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-                        android:id="@+id/btn_connect" android:text="全部连接"/>
+                        android:id="@+id/btn_connect" android:text="开始传输"/>
                 <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
                         android:id="@+id/btn_disconnect" android:text="全部断开"/>
             </LinearLayout>
