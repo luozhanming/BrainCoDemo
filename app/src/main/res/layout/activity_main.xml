@@ -16,19 +16,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-            <cn.com.ava.braincodemo.RTChart
-                    android:id="@+id/chart"
-                    app:hScaleNum="120"
-                    app:vScaleNum="20"
-                    android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            <!--<cn.com.ava.braincodemo.RTChart-->
+                    <!--android:id="@+id/chart"-->
+                    <!--app:hScaleNum="120"-->
+                    <!--app:vScaleNum="20"-->
+                    <!--android:layout_width="match_parent" android:layout_height="wrap_content"/>-->
 
             <LinearLayout android:layout_width="match_parent" android:orientation="horizontal"
                           android:layout_height="wrap_content"
                           android:gravity="center">
                 <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-                        android:id="@+id/btn_connect" android:text="全部连接"/>
+                        android:id="@+id/btn_connect" android:text="开始传输"/>
                 <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
                         android:id="@+id/btn_disconnect" android:text="全部断开"/>
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="match_parent" android:orientation="horizontal"
+                          android:layout_height="wrap_content"
+                          android:gravity="center">
+                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:id="@+id/btn_open" android:text="开启"/>
+                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:id="@+id/btn_close" android:text="关闭"/>
+                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:id="@+id/btn_output" android:text="输出"/>
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView

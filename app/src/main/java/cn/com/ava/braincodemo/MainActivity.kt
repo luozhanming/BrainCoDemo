@@ -26,7 +26,59 @@ import tech.brainco.fusi.sdk.FusiSDK
 import java.util.concurrent.TimeUnit
 import kotlin.math.roundToInt
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), View.OnClickListener {
+    override fun onClick(v: View?) {
+        when (v?.id){
+            R.id.btn_open->{
+                val map = LinkedHashMap<String, String>()
+                map.put("action", "6")
+                map.put("user", "admin")
+                map.put("pswd", "21232f297a57a5a743894a0e4a801fc3")
+                map.put("command", "1")
+                map.put("data", "BrainWave_open")
+                mApi.commandHttpApi(map)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ t ->
+
+                    },{ t ->
+                        t.printStackTrace()
+                    })
+            }
+            R.id.btn_close->{
+                val map = LinkedHashMap<String, String>()
+                map.put("action", "6")
+                map.put("user", "admin")
+                map.put("pswd", "21232f297a57a5a743894a0e4a801fc3")
+                map.put("command", "1")
+                map.put("data", "BrainWave_close")
+                mApi.commandHttpApi(map)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ t ->
+
+                    },{ t ->
+                        t.printStackTrace()
+                    })
+            }
+            R.id.btn_output->{
+                val map = LinkedHashMap<String, String>()
+                map.put("action", "6")
+                map.put("user", "admin")
+                map.put("pswd", "21232f297a57a5a743894a0e4a801fc3")
+                map.put("command", "1")
+                map.put("data", "BrainWave_DevOutput")
+                mApi.commandHttpApi(map)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ t ->
+
+                    },{ t ->
+                        t.printStackTrace()
+                    })
+            }
+        }
+    }
 
     private lateinit var mChart: RTChart
     private lateinit var refreshLayout: SwipeRefreshLayout
@@ -117,7 +169,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        mChart = findViewById(R.id.chart)
+       // mChart = findViewById(R.id.chart)
         mListView = findViewById(R.id.recyclerview)
         refreshLayout = findViewById(R.id.refreshLayout)
         mListView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -188,14 +240,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
         refreshHeadbandList()
-
+        findViewById<Button>(R.id.btn_open).setOnClickListener(this)
+        findViewById<Button>(R.id.btn_close).setOnClickListener(this)
+        findViewById<Button>(R.id.btn_output).setOnClickListener(this)
     }
 
     override fun onStart() {
         super.onStart()
-        mChart.post {
-            mChart.postDrawInitialValue()
-        }
         refreshLayout.setOnRefreshListener {
             refreshHeadbandList()
         }
@@ -296,9 +347,6 @@ class MainActivity : AppCompatActivity() {
                 itemView.findViewById(R.id.contact) as TextView
             }
 
-            val attention: TextView by lazy {
-                itemView.findViewById(R.id.attention) as TextView
-            }
 
         }
     }
