@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import com.orhanobut.logger.Logger
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -24,7 +25,6 @@ import tech.brainco.fusi.sdk.DeviceContactState
 import tech.brainco.fusi.sdk.FusiHeadband
 import tech.brainco.fusi.sdk.FusiSDK
 import java.util.concurrent.TimeUnit
-import kotlin.math.roundToInt
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
@@ -109,6 +109,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 mHeadBandMap.put(headband, arrayListOf())
             }
             when (headband?.connectionState) {
+                //
                 DeviceConnectionState.CONNECTED or DeviceConnectionState.CONNECTING -> {
                     it.setForeheadLEDLight(0, 0, 0)
                     it.disconnect()
@@ -178,31 +179,37 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             timeDisposable = Observable.interval(5, TimeUnit.SECONDS)
                 .map {
                     val studentDataStr = arrayListOf<String>()
-                    val studentAverage = arrayListOf<Double>()
+                    val studentAverage = arrayListOf<Int>()
                     var index = 1
                     mHeadBandMap.forEach {
                         val band = it.key
                         val value = it.value
-                        val average: Double = value.asSequence().map { (it.attention*100).toInt() }.toList().average()
+                        //计算单个学生的5秒内数据的专注度平均值
+                        val average = value.asSequence().map { it.attention.times(100) }.toList().average().toInt()
                         if (average > 0) {
+                            //数据正常保留
                             val studentData =
-                                "{${index++},${average.toInt()},${(band.batteryLevel?.times(100)?.toInt())?:0},${band.mac},${band.ip},${band.name.replace("_","-")}}"
+                                "{${index++},${average.toInt()},${(band.batteryLevel?.times(100)?.toInt())
+                                    ?: 0},${band.mac},${band.ip},${band.name.replace("_", "-")}}"
                             studentDataStr.add(studentData)
                             studentAverage.add(average)
-                        }else{
+                        } else {
+                            //数据异常置0
                             val studentData =
-                                "{${index++},0,${(band.batteryLevel?.times(100)?.toInt())?:0},${band.mac},${band.ip},${band.name.replace("_","-")}}"
+                                "{${index++},0,${(band.batteryLevel?.times(100)?.toInt())
+                                    ?: 0},${band.mac},${band.ip},${band.name.replace("_", "-")}}"
                             studentDataStr.add(studentData)
-                            studentAverage.add(average)
+                            studentAverage.add(0)
                         }
                     }
                     val buffer = StringBuffer()
-
-                    val sendHead = "BrainWave_InputDevData_${it}_${studentAverage.size}_${studentAverage.asSequence().filter { !it.isNaN() }
-                        .map {
-                            item->item.toInt()
-                        }
-                        .toList().average().toString().replaceAfter(".","").replace(".","")}"
+                    //指令头
+                    val sendHead =
+                        "BrainWave_InputDevData_${it}_${studentAverage.size}_${studentAverage.asSequence().filter { it != 0 }
+                            .map { item ->
+                                item
+                            }
+                            .toList().average().toString().replaceAfter(".", "").replace(".", "")}_"
                     buffer.append(sendHead)
                     for (data in studentDataStr) {
                         buffer.append("_$data")
@@ -214,7 +221,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
-                        Log.i("MainActivity", "send Data: $it")
+                        Logger.i("MainActivity", "send Data: $it")
                         val map = LinkedHashMap<String, String>()
                         map.put("action", "6")
                         map.put("user", "admin")
