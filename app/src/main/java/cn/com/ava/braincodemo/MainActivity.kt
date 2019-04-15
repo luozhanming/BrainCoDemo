@@ -28,8 +28,8 @@ import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
-        when (v?.id){
-            R.id.btn_open->{
+        when (v?.id) {
+            R.id.btn_open -> {
                 val map = LinkedHashMap<String, String>()
                 map.put("action", "6")
                 map.put("user", "admin")
@@ -41,11 +41,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ t ->
 
-                    },{ t ->
+                    }, { t ->
                         t.printStackTrace()
                     })
             }
-            R.id.btn_close->{
+            R.id.btn_close -> {
                 val map = LinkedHashMap<String, String>()
                 map.put("action", "6")
                 map.put("user", "admin")
@@ -57,11 +57,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ t ->
 
-                    },{ t ->
+                    }, { t ->
                         t.printStackTrace()
                     })
             }
-            R.id.btn_output->{
+            R.id.btn_output -> {
                 val map = LinkedHashMap<String, String>()
                 map.put("action", "6")
                 map.put("user", "admin")
@@ -73,14 +73,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ t ->
 
-                    },{ t ->
+                    }, { t ->
                         t.printStackTrace()
                     })
             }
         }
     }
 
-    private lateinit var mChart: RTChart
+    //private lateinit var mChart: RTChart
     private lateinit var refreshLayout: SwipeRefreshLayout
     private lateinit var mListView: RecyclerView
 
@@ -151,9 +151,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 }
 
             })
-            headband?.setOnAttentionListener(object : OnAttentionChangedListenerEx(headband) {
+            headband.setOnAttentionListener(object : OnAttentionChangedListenerEx(headband) {
                 override fun onAttention(p0: Double) {
-                    //   mChart.postDrawNewValue(p0.toInt())
+                  //  mChart.postDrawNewValue(p0.toInt())
                     val attentions = mHeadBandMap.getOrElse(this.headband) {
                         null
                     }
@@ -170,7 +170,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-       // mChart = findViewById(R.id.chart)
+      //  mChart = findViewById(R.id.chart)
         mListView = findViewById(R.id.recyclerview)
         refreshLayout = findViewById(R.id.refreshLayout)
         mListView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -185,11 +185,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                         val band = it.key
                         val value = it.value
                         //计算单个学生的5秒内数据的专注度平均值
-                        val average = value.asSequence().map { it.attention.times(100) }.toList().average().toInt()
+                        val average = value.asSequence().map { 100 * it.attention }.toList().average().toInt()
                         if (average > 0) {
                             //数据正常保留
                             val studentData =
-                                "{${index++},${average.toInt()},${(band.batteryLevel?.times(100)?.toInt())
+                                "{${index++},${average},${(band.batteryLevel?.times(100)?.toInt())
                                     ?: 0},${band.mac},${band.ip},${band.name.replace("_", "-")}}"
                             studentDataStr.add(studentData)
                             studentAverage.add(average)
@@ -204,12 +204,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     }
                     val buffer = StringBuffer()
                     //指令头
+
                     val sendHead =
-                        "BrainWave_InputDevData_${it}_${studentAverage.size}_${studentAverage.asSequence().filter { it != 0 }
-                            .map { item ->
-                                item
-                            }
-                            .toList().average().toString().replaceAfter(".", "").replace(".", "")}_"
+                        "BrainWave_InputDevData_${it}_${studentAverage.size}_${if (studentAverage.size > 0) {
+                            studentAverage.average()
+                        } else {
+                            0
+                        }}"
                     buffer.append(sendHead)
                     for (data in studentDataStr) {
                         buffer.append("_$data")
