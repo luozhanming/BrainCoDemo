@@ -2,7 +2,6 @@
 <FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity">
@@ -16,35 +15,107 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
+            <TextView
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_gravity="center"
+                    android:id="@+id/tv_iphost"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textSize="18sp"/>
             <!--<cn.com.ava.braincodemo.RTChart-->
-                    <!--android:id="@+id/chart"-->
-                    <!--app:hScaleNum="120"-->
-                    <!--app:vScaleNum="20"-->
-                    <!--android:layout_width="match_parent" android:layout_height="wrap_content"/>-->
+            <!--android:id="@+id/chart"-->
+            <!--app:hScaleNum="120"-->
+            <!--app:vScaleNum="20"-->
+            <!--android:layout_width="match_parent" android:layout_height="wrap_content"/>-->
 
 
             <!--<cn.com.ava.braincodemo.RTChart-->
-                    <!--android:id="@+id/chart"-->
-                    <!--app:hScaleNum="120"-->
-                    <!--android:layout_width="match_parent" android:layout_height="wrap_content"/>-->
+            <!--android:id="@+id/chart"-->
+            <!--app:hScaleNum="120"-->
+            <!--android:layout_width="match_parent" android:layout_height="wrap_content"/>-->
             <LinearLayout android:layout_width="match_parent" android:orientation="horizontal"
                           android:layout_height="wrap_content"
                           android:gravity="center">
                 <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_marginRight="30dp"
+                        android:textSize="18sp"
                         android:id="@+id/btn_connect" android:text="开始传输"/>
                 <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_marginRight="30dp"
+                        android:textSize="18sp"
+                        android:id="@+id/btn_allconnect" android:text="全部连接"/>
+                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:textSize="18sp"
                         android:id="@+id/btn_disconnect" android:text="全部断开"/>
             </LinearLayout>
 
             <LinearLayout android:layout_width="match_parent" android:orientation="horizontal"
                           android:layout_height="wrap_content"
+                          android:layout_marginTop="25dp"
                           android:gravity="center">
                 <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_marginRight="30dp"
+                        android:textSize="18sp"
                         android:id="@+id/btn_open" android:text="开启"/>
                 <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_marginRight="30dp"
+                        android:textSize="18sp"
                         android:id="@+id/btn_close" android:text="关闭"/>
                 <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:textSize="18sp"
                         android:id="@+id/btn_output" android:text="输出"/>
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                          android:orientation="horizontal"
+                          android:layout_width="match_parent"
+                          android:layout_marginBottom="16dp"
+                          android:layout_marginTop="25dp"
+                          android:layout_height="45dp">
+
+                <TextView
+                        android:layout_width="0dp"
+                        android:gravity="center"
+                        android:text="头环序列号"
+                        android:textSize="18sp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"/>
+
+                <TextView
+                        android:text="头环名称"
+                        android:layout_width="0dp"
+                        android:textSize="18sp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_height="wrap_content"/>
+
+                <TextView
+                        android:text="头环ip"
+                        android:layout_width="0dp"
+                        android:textSize="18sp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_height="wrap_content"/>
+
+                <TextView
+                        android:text="头环连接状态"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:textSize="18sp"
+                        android:gravity="center"
+                        android:layout_height="wrap_content"/>
+
+                <TextView
+                        android:text="头环接触状态"
+                        android:id="@+id/contact"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:textSize="18sp"
+                        android:gravity="center"
+                        android:layout_height="wrap_content"/>
+
+
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
